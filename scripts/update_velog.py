@@ -2,44 +2,44 @@ import feedparser
 import git
 import os
 
-# º§·Î±× RSS ÇÇµå URL
+# ë²¨ë¡œê·¸ RSS í”¼ë“œ URL
 # example : rss_url = 'https://api.velog.io/rss/@soozi'
 rss_url = 'https://api.velog.io/rss/@greendev'
 
-# ±êÇãºê ·¹Æ÷ÁöÅä¸® °æ·Î
+# ê¹ƒí—ˆë¸Œ ë ˆí¬ì§€í† ë¦¬ ê²½ë¡œ
 repo_path = '.'
 
-# 'velog-posts' Æú´õ °æ·Î
+# 'velog-posts' í´ë” ê²½ë¡œ
 posts_dir = os.path.join(repo_path, 'velog-posts')
 
-# 'velog-posts' Æú´õ°¡ ¾ø´Ù¸é »ı¼º
+# 'velog-posts' í´ë”ê°€ ì—†ë‹¤ë©´ ìƒì„±
 if not os.path.exists(posts_dir):
     os.makedirs(posts_dir)
 
-# ·¹Æ÷ÁöÅä¸® ·Îµå
+# ë ˆí¬ì§€í† ë¦¬ ë¡œë“œ
 repo = git.Repo(repo_path)
 
-# RSS ÇÇµå ÆÄ½Ì
+# RSS í”¼ë“œ íŒŒì‹±
 feed = feedparser.parse(rss_url)
 
-# °¢ ±ÛÀ» ÆÄÀÏ·Î ÀúÀåÇÏ°í Ä¿¹Ô
+# ê° ê¸€ì„ íŒŒì¼ë¡œ ì €ì¥í•˜ê³  ì»¤ë°‹
 for entry in feed.entries:
-    # ÆÄÀÏ ÀÌ¸§¿¡¼­ À¯È¿ÇÏÁö ¾ÊÀº ¹®ÀÚ Á¦°Å ¶Ç´Â ´ëÃ¼
+    # íŒŒì¼ ì´ë¦„ì—ì„œ ìœ íš¨í•˜ì§€ ì•Šì€ ë¬¸ì ì œê±° ë˜ëŠ” ëŒ€ì²´
     file_name = entry.title
-    file_name = file_name.replace('/', '-')  # ½½·¡½Ã¸¦ ´ë½Ã·Î ´ëÃ¼
-    file_name = file_name.replace('\\', '-')  # ¹é½½·¡½Ã¸¦ ´ë½Ã·Î ´ëÃ¼
-    # ÇÊ¿ä¿¡ µû¶ó Ãß°¡ ¹®ÀÚ ´ëÃ¼
+    file_name = file_name.replace('/', '-')  # ìŠ¬ë˜ì‹œë¥¼ ëŒ€ì‹œë¡œ ëŒ€ì²´
+    file_name = file_name.replace('\\', '-')  # ë°±ìŠ¬ë˜ì‹œë¥¼ ëŒ€ì‹œë¡œ ëŒ€ì²´
+    # í•„ìš”ì— ë”°ë¼ ì¶”ê°€ ë¬¸ì ëŒ€ì²´
     file_name += '.md'
     file_path = os.path.join(posts_dir, file_name)
 
-    # ÆÄÀÏÀÌ ÀÌ¹Ì Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »ı¼º
+    # íŒŒì¼ì´ ì´ë¯¸ ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ìƒì„±
     if not os.path.exists(file_path):
         with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(entry.description)  # ±Û ³»¿ëÀ» ÆÄÀÏ¿¡ ÀÛ¼º
+            file.write(entry.description)  # ê¸€ ë‚´ìš©ì„ íŒŒì¼ì— ì‘ì„±
 
-        # ±êÇãºê Ä¿¹Ô
+        # ê¹ƒí—ˆë¸Œ ì»¤ë°‹
         repo.git.add(file_path)
         repo.git.commit('-m', f'Add post: {entry.title}')
 
-# º¯°æ »çÇ×À» ±êÇãºê¿¡ Çª½Ã
+# ë³€ê²½ ì‚¬í•­ì„ ê¹ƒí—ˆë¸Œì— í‘¸ì‹œ
 repo.git.push()
