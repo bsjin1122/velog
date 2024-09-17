@@ -7,6 +7,7 @@ on:
         - main  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
   schedule:
     - cron: '15 15 * * *'  # 한국 시간 자정(UTC 15:00)에 실행
+    - cron: '0 3 * * *' #한국 시간 정오에 실행
 
 jobs:
   update_blog:
