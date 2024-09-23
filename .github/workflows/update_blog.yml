@@ -32,8 +32,8 @@ jobs:
     - name: Push changes
       if: success()
       run: |
-        git config --global user.name 'bsjin1122'
-        git config --global user.email 'kitty7579@hanmail.net'
+        git config --local user.name 'bsjin1122'
+        git config --local user.email 'kitty7579@hanmail.net'
         git add .
         COMMIT_MESSAGE=$(cat "${{ steps.update_velog.outputs.commit_message }}")
         git commit -m "$COMMIT_MESSAGE"
