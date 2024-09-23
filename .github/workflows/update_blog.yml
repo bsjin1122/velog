@@ -5,8 +5,8 @@ on:
   push:
       branches:
         - main  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
-  schedule:
-    - cron: '*/1 * * * *' # 5분마다 update
+ # schedule:
+   # - cron: '*/1 * * * *' # 5분마다 update
 
 jobs:
   update_blog:
