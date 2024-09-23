@@ -31,7 +31,7 @@ current_files = set()
 # 현재 날짜와 요일 가져오기
 current_date = datetime.now().strftime("%y%m%d")
 current_day = ["월", "화", "수", "목", "금", "토", "일"][datetime.now().weekday()]
-date_prefix = f"[{current_date}{current_day}]"
+date_prefix = f"{current_date}{current_day}"
 
 # D-Day 계산 (2024년 9월 9일 기준)
 base_date = datetime(2024, 9, 9)
@@ -72,7 +72,7 @@ for entry in feed.entries:
             file.write(entry.description)  # 글 내용을 파일에 작성
 
         # 깃허브 커밋
-        commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
+        commit_message = f"[{date_prefix} / {dday_prefix}] {entry.title}"
         repo.git.add(file_path)
         repo.git.commit('-m', commit_message)
 
