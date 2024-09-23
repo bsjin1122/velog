@@ -1,6 +1,7 @@
 import feedparser
 import git
 import os
+from datetime import datetime
 
 # 벨로그 RSS 피드 URL
 rss_url = 'https://api.velog.io/rss/@greendev'
@@ -27,6 +28,23 @@ existing_files = set(os.listdir(posts_dir))
 # 새로 추가될 파일 목록
 current_files = set()
 
+# 현재 날짜와 요일 가져오기
+current_date = datetime.now().strftime("%y%m%d")
+current_day = ["월", "화", "수", "목", "금", "토", "일"][datetime.now().weekday()]
+date_prefix = f"[{current_date}{current_day}]"
+
+# D-Day 계산 (2024년 9월 9일 기준)
+base_date = datetime(2024, 9, 9)
+current_datetime = datetime.now()
+dday_diff = (current_datetime - base_date).days
+
+# D-Day 표시 형식 설정
+if dday_diff >= 0:
+    dday_prefix = f"D+{dday_diff}"
+else:
+    dday_prefix = f"D{dday_diff}"
+
+
 # 각 글을 파일로 저장하고 커밋
 for entry in feed.entries:
     # 파일 이름에서 유효하지 않은 문자 제거 또는 대체
@@ -34,12 +52,17 @@ for entry in feed.entries:
     current_files.add(file_name + '.md')  # 현재 파일 목록에 추가
     print(file_name)
     
-    # Oracle 관련 글인 경우 oracle 폴더에 저장
+    # Oracle 관련 글인 경우 ORACLE 폴더에 저장
     if file_name.startswith('[Oracle]'):
         oracle_dir = os.path.join(posts_dir, 'ORACLE')
         if not os.path.exists(oracle_dir):
             os.makedirs(oracle_dir)
         file_path = os.path.join(oracle_dir, file_name + '.md')
+        
+        # Oracle 관련 글이 이미 존재하면 추가 작업을 건너뛰기
+        if os.path.exists(file_path):
+            # print(f"Skipping existing Oracle post: {file_name}")
+            continue
     else:
         file_path = os.path.join(posts_dir, file_name + '.md')
 
@@ -49,19 +72,10 @@ for entry in feed.entries:
             file.write(entry.description)  # 글 내용을 파일에 작성
 
         # 깃허브 커밋
+        commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
         repo.git.add(file_path)
-        repo.git.commit('-m', f'Add post: {entry.title}')
+        repo.git.commit('-m', commit_message)
 
-# 삭제된 게시글 감지
-files_to_remove = existing_files - current_files
-
-# 삭제된 파일 처리
-for file_name in files_to_remove:
-    file_path = os.path.join(posts_dir, file_name)
-    if os.path.exists(file_path):
-        os.remove(file_path)  # 파일 삭제
-        repo.git.rm(file_path)  # Git에서 삭제
-        repo.git.commit('-m', f'Remove deleted post: {file_name}')
 
 # 변경 사항을 깃허브에 푸시
 repo.git.push()
