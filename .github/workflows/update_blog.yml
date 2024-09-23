@@ -6,7 +6,7 @@ on:
       branches:
         - main  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
   schedule:
-    - cron: '*/5 * * * *' # 5분마다 update
+    - cron: '*/1 * * * *' # 5분마다 update
 
 jobs:
   update_blog:
@@ -15,12 +15,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Push changes
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -32,4 +26,17 @@ jobs:
         pip install feedparser gitpython
 
     - name: Run script
+      id: update_velog  # Step ID 추가
       run: python scripts/update_velog.py
+    
+    - name: Push changes
+      if: success()
+      run: |
+        git config --global user.name 'bsjin1122'
+        git config --global user.email 'kitty7579@hanmail.net'
+        git add .
+        COMMIT_MESSAGE=$(cat "${{ steps.update_velog.outputs.commit_message }}")
+        git commit -m "$COMMIT_MESSAGE"
+        git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
+      env:
+        COMMIT_MESSAGE: ${{ steps.update_velog.outputs.commit_message }}

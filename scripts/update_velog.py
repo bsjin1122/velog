@@ -78,3 +78,6 @@ for entry in feed.entries:
 
 # 변경 사항을 깃허브에 푸시
 repo.git.push()
+
+# Python 스크립트의 마지막 부분에 추가
+print(commit_message)
