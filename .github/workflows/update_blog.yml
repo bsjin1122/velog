@@ -30,11 +30,10 @@ jobs:
       run: python scripts/update_velog.py
     
     - name: Push changes
-      if: success()
       run: |
         git config --global user.name 'bsjin1122'
         git config --global user.email 'kitty7579@hanmail.net'
-        git add .
+        git add *
         COMMIT_MESSAGE=$(cat "${{ steps.update_velog.outputs.commit_message }}")
         git commit -m "$COMMIT_MESSAGE"
         git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
