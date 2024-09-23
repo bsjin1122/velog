@@ -72,7 +72,7 @@ for entry in feed.entries:
             file.write(entry.description)  # 글 내용을 파일에 작성
 
         # 깃허브 커밋
-        commit_message = f"[{date_prefix} / {dday_prefix}] {entry.title}"
+        commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
         repo.git.add(file_path)
         repo.git.commit('-m', commit_message)
 
