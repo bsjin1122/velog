@@ -76,16 +76,5 @@ for entry in feed.entries:
         repo.git.add(file_path)
         repo.git.commit('-m', commit_message)
 
-# 삭제된 게시글 감지
-files_to_remove = existing_files - current_files
-
-# 삭제된 파일 처리
-for file_name in files_to_remove:
-    file_path = os.path.join(posts_dir, file_name)
-    if os.path.exists(file_path):
-        repo.git.rm(file_path)  # Git에서 삭제 (로컬에서도 자동 삭제)
-        repo.git.commit('-m', f'삭제된 게시글: {file_name}')
-
-
 # 변경 사항을 깃허브에 푸시
 repo.git.push()
