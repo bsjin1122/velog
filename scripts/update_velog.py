@@ -80,4 +80,4 @@ for entry in feed.entries:
 repo.git.push()
 
 # Python 스크립트의 마지막 부분에 추가
-print(commit_message)
+print(f"::set-output name=commit_message::{commit_message}")
