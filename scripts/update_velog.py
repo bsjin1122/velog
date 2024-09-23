@@ -3,11 +3,10 @@ import git
 import os
 
 # 벨로그 RSS 피드 URL
-# example : rss_url = 'https://api.velog.io/rss/@soozi'
 rss_url = 'https://api.velog.io/rss/@greendev'
 
 # 깃허브 레포지토리 경로
-repo_path = '.'
+repo_path = '.'  # 실제 Git 저장소 경로
 
 # 'velog-posts' 폴더 경로
 posts_dir = os.path.join(repo_path, 'velog-posts')
@@ -22,15 +21,27 @@ repo = git.Repo(repo_path)
 # RSS 피드 파싱
 feed = feedparser.parse(rss_url)
 
+# 현재 파일 목록 가져오기
+existing_files = set(os.listdir(posts_dir))
+
+# 새로 추가될 파일 목록
+current_files = set()
+
 # 각 글을 파일로 저장하고 커밋
 for entry in feed.entries:
     # 파일 이름에서 유효하지 않은 문자 제거 또는 대체
-    file_name = entry.title
-    file_name = file_name.replace('/', '-')  # 슬래시를 대시로 대체
-    file_name = file_name.replace('\\', '-')  # 백슬래시를 대시로 대체
-    # 필요에 따라 추가 문자 대체
-    file_name += '.md'
-    file_path = os.path.join(posts_dir, file_name)
+    file_name = entry.title.replace('/', '-').replace('\\', '-')
+    current_files.add(file_name + '.md')  # 현재 파일 목록에 추가
+    print(file_name)
+    
+    # Oracle 관련 글인 경우 oracle 폴더에 저장
+    if file_name.startswith('[Oracle]'):
+        oracle_dir = os.path.join(posts_dir, 'ORACLE')
+        if not os.path.exists(oracle_dir):
+            os.makedirs(oracle_dir)
+        file_path = os.path.join(oracle_dir, file_name + '.md')
+    else:
+        file_path = os.path.join(posts_dir, file_name + '.md')
 
     # 파일이 이미 존재하지 않으면 생성
     if not os.path.exists(file_path):
@@ -40,6 +51,17 @@ for entry in feed.entries:
         # 깃허브 커밋
         repo.git.add(file_path)
         repo.git.commit('-m', f'Add post: {entry.title}')
+
+# 삭제된 게시글 감지
+files_to_remove = existing_files - current_files
+
+# 삭제된 파일 처리
+for file_name in files_to_remove:
+    file_path = os.path.join(posts_dir, file_name)
+    if os.path.exists(file_path):
+        os.remove(file_path)  # 파일 삭제
+        repo.git.rm(file_path)  # Git에서 삭제
+        repo.git.commit('-m', f'Remove deleted post: {file_name}')
 
 # 변경 사항을 깃허브에 푸시
 repo.git.push()
