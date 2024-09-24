@@ -51,6 +51,14 @@ for entry in feed.entries:
     file_name = entry.title.replace('/', '-').replace('\\', '-')
     current_files.add(file_name + '.md')  # 현재 파일 목록에 추가
     print(file_name)
+
+    # 게시글 내용 확인
+    post_content = entry.description.strip() if entry.description else None
+    
+    # 게시글 내용이 없을 경우 예외 처리
+    if not post_content:
+        print(f"Skipping post '{entry.title}' as it has no content.")
+        continue
     
     # Oracle 관련 글인 경우 ORACLE 폴더에 저장
     if file_name.startswith('[Oracle]'):
