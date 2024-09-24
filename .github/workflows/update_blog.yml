@@ -13,30 +13,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        pip install feedparser gitpython
-    
-    - name: Push changes
-      run: |
-        git config --global user.name 'bsjin1122'
-        git config --global user.email 'kitty7579@hanmail.net'
-        git add .
-        COMMIT_MESSAGE="${{ steps.update_velog.outputs.commit_message }}"  # 커밋 메시지 설정
-        echo "Commit message: $COMMIT_MESSAGE"  # 커밋 메시지 출력
-        git commit -m "$COMMIT_MESSAGE"
-        git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
-      env:
-        COMMIT_MESSAGE: ${{ steps.update_velog.outputs.commit_message }}
-    
-    - name: Run script
-      id: update_velog  # Step ID 추가
-      run: python scripts/update_velog.py
+      - name: Checkout
+        uses: actions/checkout@v4
+  
+      - name: Push changes
+        run: |
+          git config --global user.name 'bsjin1122'
+          git config --global user.email 'kitty7579@hanmail.net'
+          git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
+  
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+  
+      - name: Install dependencies
+        run: |
+          pip install feedparser gitpython
+  
+      - name: Run script
+        run: python scripts/update_velog.py
