@@ -6,7 +6,7 @@ on:
       branches:
         - main  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
   schedule:
-    - cron: '*/3 * * * *' # 6시간마다 update
+    - cron: '0 */6 * * *' # 6시간마다 update
 
 jobs:
   update_blog:
