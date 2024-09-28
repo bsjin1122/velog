@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - update-blog-posts-branch
-  # schedule:
-    # - cron: '*/1 * * * *'
+  schedule:
+    - cron: '0 */6 * * *'
   workflow_dispatch: 
-    inputs: # on button click
+    inputs: 
       pullRequestNumber:
         description: Pull request number to auto-approve
         required: false
@@ -46,26 +46,18 @@ jobs:
       - name: Run script
         run: python scripts/update_velog.py
       
-      - name: Check for Changes
+      - name: Check for Changes # Git 상태 확인
         run: |
           git status
           git diff
         id: check_changes
 
-      # --allow-empty 
-      # - name: Commit and Push Changes
-      #   run: |
-      #     git add .
-      #     git commit --allow-empty -m "Velog posts 업데이트함"
-      #     git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
-     
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
           
-      - name: pull-request
+      - name: Create Pull Request
         uses: diillson/auto-pull-request@v1.0.1
         with:
-          # source_branch: "update-blog-posts-branch"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_label: "velog"
@@ -75,10 +67,21 @@ jobs:
             :crown: *An automated PR*
         id: create_pr  
 
-      - name: Display PR Number
+      - name: Display PR Number # 날짜 형식
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
-        
+      
+      - name: PR Auto Merge 
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+      
+
+    
+      ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
+
+      # 방법1. PR 자동 승인
       # - name: PR auto approval
       #   uses: tgymnich/fork-sync@v2.0
       #   with:
@@ -88,6 +91,7 @@ jobs:
       #     head: update-blog-posts-branch
       #     pr_message: "velog 작성 - PR approve 완료"
 
+      # 방법2. PR 자동 승인
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
       #   with:
@@ -95,13 +99,7 @@ jobs:
       #     pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
       #     review-message: "Auto approved automated PR Test"
 
-      - name: pr auto merge (최종)
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-      
-
+      # 방법3. PR 자동 생성 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
       #   with:
