@@ -49,7 +49,6 @@ jobs:
           base: main
       
       - name: Auto Approve
-        if: github.event_name == 'pull_request'
         uses: hmarr/auto-approve-action@v4
         with:
           github-token: ${{ secrets.GH_PAT }}
