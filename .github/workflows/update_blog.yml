@@ -9,11 +9,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:
-    inputs: 
-      pullRequestNumber:
-        description: Pull request number to auto-approve
-        required: false
 
 permissions:
   contents: write
@@ -74,9 +69,9 @@ jobs:
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
         
       - name: PR 자동 승인
-        if: github.actor == 'github-actions[bot]'  
         uses: hmarr/auto-approve-action@v4
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
           review-message: "Auto approved automated PR Test"
 
