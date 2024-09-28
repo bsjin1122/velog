@@ -90,3 +90,11 @@ repo.git.fetch('origin')
 repo.git.checkout(branch_name)
 repo.git.pull('origin', branch_name, '--rebase')
 repo.git.push('origin', branch_name)
+
+
+
+# 추후 .yml파일에서 환경변수로 사용할 예정 (예시 코드)
+# with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+#     f.write(f"commit_message={commit_message}\n")
+#     f.write(f"branch_name={branch_name}\n")
+#     f.write(f"file_name={file_name}\n")
