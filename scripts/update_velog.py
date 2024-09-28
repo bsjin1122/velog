@@ -1,6 +1,7 @@
 import feedparser
 import git
 import os
+import re
 from datetime import datetime
 
 # 벨로그 RSS 피드 URL
@@ -13,20 +14,13 @@ repo_path = '.'  # 실제 Git 저장소 경로
 posts_dir = os.path.join(repo_path, 'velog-posts')
 
 # 'velog-posts' 폴더가 없다면 생성
-if not os.path.exists(posts_dir):
-    os.makedirs(posts_dir)
+os.makedirs(posts_dir, exist_ok=True)
 
 # 레포지토리 로드
 repo = git.Repo(repo_path)
 
 # RSS 피드 파싱
 feed = feedparser.parse(rss_url)
-
-# 현재 파일 목록 가져오기
-existing_files = set(os.listdir(posts_dir))
-
-# 새로 추가될 파일 목록
-current_files = set()
 
 # 현재 날짜와 요일 가져오기
 current_date = datetime.now().strftime("%y%m%d")
@@ -35,63 +29,60 @@ date_prefix = f"{current_date}{current_day}"
 
 # D-Day 계산 (2024년 9월 9일 기준)
 base_date = datetime(2024, 9, 9)
-current_datetime = datetime.now()
-dday_diff = (current_datetime - base_date).days
-
-# D-Day 표시 형식 설정
-if dday_diff >= 0:
-    dday_prefix = f"D+{dday_diff}"
-else:
-    dday_prefix = f"D{dday_diff}"
-
+dday_diff = (datetime.now() - base_date).days
+dday_prefix = f"D+{dday_diff}" if dday_diff >= 0 else f"D{dday_diff}"
 
 # 각 글을 파일로 저장하고 커밋
 for entry in feed.entries:
-    # 파일 이름에서 유효하지 않은 문자 제거 또는 대체
     file_name = entry.title.replace('/', '-').replace('\\', '-')
-    current_files.add(file_name + '.md')  # 현재 파일 목록에 추가
-    print(file_name)
-
+    
     # 게시글 내용 확인
     post_content = entry.description.strip() if entry.description else None
-    
-    # 게시글 내용이 없을 경우 예외 처리
     if not post_content:
-        print(f"Skipping post '{entry.title}' as it has no content.")
+        # print(f"Skipping post '{entry.title}' as it has no content.")
         continue
     
-    # Oracle 관련 글인 경우 ORACLE 폴더에 저장
-    if file_name.startswith('[Oracle]'):
-        oracle_dir = os.path.join(posts_dir, 'ORACLE')
-        if not os.path.exists(oracle_dir):
-            os.makedirs(oracle_dir)
-        file_path = os.path.join(oracle_dir, file_name + '.md')
-        
-        # Oracle 관련 글이 이미 존재하면 추가 작업을 건너뛰기
-        if os.path.exists(file_path):
-            # print(f"Skipping existing Oracle post: {file_name}")
-            continue
+    # 파일 이름에서 주제(subject) 추출
+    match = re.search(r'\[(.*?)\]', file_name)
+    subject = match.group(1).upper() if match else None # 대문자 설정
+
+    # 디렉토리 설정: subject가 있는 경우 해당 디렉토리, 없는 경우 'velog-posts'
+    if subject:
+        subject_dir = os.path.join(posts_dir, subject)
+        os.makedirs(subject_dir, exist_ok=True)  # 해당 subject 디렉토리 생성
     else:
-        file_path = os.path.join(posts_dir, file_name + '.md')
+        subject_dir = posts_dir
+    
+    # Oracle 관련 글인 경우 ORACLE 폴더로 변경
+    if subject and subject.startswith('ORACLE'):
+        subject_dir = os.path.join(posts_dir, 'ORACLE')
+        os.makedirs(subject_dir, exist_ok=True)
+    
+    # 파일 경로 설정
+    file_path = os.path.join(subject_dir, file_name + '.md')
+    
+    # 이미 파일이 존재하면 작업을 건너뛰기
+    if os.path.exists(file_path):
+        continue
+    
+    # 파일 생성 및 내용 작성
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(post_content)
+    
+    # 깃허브 커밋
+    commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
+    repo.git.add(file_path)
+    repo.git.commit('-m', commit_message)
 
-    # 파일이 이미 존재하지 않으면 생성
-    if not os.path.exists(file_path):
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(entry.description)  # 글 내용을 파일에 작성
-
-        # 깃허브 커밋
-        commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
-        repo.git.add(file_path)
-        repo.git.commit('--allow-empty', '-m', commit_message)
-
-# 변경 사항을 깃허브에 푸시
-branch_name = 'update-blog-posts-branch'
-repo.git.fetch('origin')
-repo.git.checkout(branch_name)
-repo.git.pull('origin', branch_name, '--rebase')
-repo.git.push('origin', branch_name)
-
-
+# 커밋 여부 확인 후 변경 사항을 푸시
+if repo.is_dirty(untracked_files=True):
+    branch_name = 'update-blog-posts-branch'
+    repo.git.fetch('origin')
+    repo.git.checkout(branch_name)
+    repo.git.pull('origin', branch_name, '--rebase')
+    repo.git.push('origin', branch_name)
+else:
+    print("Push할 변경사항이 없습니다.")
 
 # 추후 .yml파일에서 환경변수로 사용할 예정 (예시 코드)
 # with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
