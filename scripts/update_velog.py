@@ -85,8 +85,8 @@ for entry in feed.entries:
         repo.git.commit('--allow-empty', '-m', commit_message)
 
 # 변경 사항을 깃허브에 푸시
-# remote_url = f"https://{os.environ['GITHUB_TOKEN']}@github.com/bsjin1122/velog.git"
-# repo.git.push(remote_url, f'HEAD:{name_of_remote_branch}')
-repo.git.checkout('update-blog-posts-branch')
-repo.git.pull('origin', 'update-blog-posts-branch', '--rebase')
-repo.git.push('origin', 'update-blog-posts-branch')
+branch_name = 'update-blog-posts-branch'
+repo.git.fetch('origin')
+repo.git.checkout(branch_name)
+repo.git.pull('origin', branch_name, '--rebase')
+repo.git.push('origin', branch_name)
