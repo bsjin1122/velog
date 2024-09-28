@@ -89,10 +89,11 @@ jobs:
         uses: hmarr/auto-approve-action@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
           review-message: "Auto approved automated PR Test"
 
-      - uses: peter-evans/enable-pull-request-automerge@v3
+      - name: pr auto merge (최종)
+        uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
