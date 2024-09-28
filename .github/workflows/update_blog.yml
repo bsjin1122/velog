@@ -74,7 +74,6 @@ jobs:
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
         
       - name: PR 자동 승인
-        if: github.actor == 'github-actions[bot]'  
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
