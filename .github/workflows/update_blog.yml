@@ -69,6 +69,10 @@ jobs:
             :crown: *An automated PR*
         id: create_pr  
 
+      - name: Display PR Number
+        run: |
+          echo "Pull Request Number: ${{ steps.create_pr.outputs.pull-request-number }}" 
+        
       - name: PR 자동 승인
         if: github.actor == 'github-actions[bot]'  
         uses: hmarr/auto-approve-action@v4
