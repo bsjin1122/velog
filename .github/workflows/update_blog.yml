@@ -52,12 +52,12 @@ jobs:
           git diff
         id: check_changes
 
-        # --allow-empty 
-      - name: Commit and Push Changes
-        run: |
-          git add .
-          git commit --allow-empty -m "Velog posts 업데이트함"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
+      # --allow-empty 
+      # - name: Commit and Push Changes
+      #   run: |
+      #     git add .
+      #     git commit --allow-empty -m "Velog posts 업데이트함"
+      #     git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
