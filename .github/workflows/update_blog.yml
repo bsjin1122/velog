@@ -5,7 +5,8 @@ on:
     branches:
       - update-blog-posts-branch
   # schedule:
-  #   - cron: '*/1 * * * *'
+    # - cron: '*/1 * * * *'
+  workflow_dispatch: # on button click
   pull_request:
     branches:
       - main
@@ -77,6 +78,7 @@ jobs:
           owner: bsjin1122
           base: main
           head: update-blog-posts-branch
+          pr_message: "velog 작성 - PR approve 완료"
 
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
