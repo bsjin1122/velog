@@ -73,7 +73,7 @@ jobs:
       - name: PR auto approval
         uses: tgymnich/fork-sync@v2.0
         with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           owner: bsin1122
           base: main
           head: update-blog-posts-branch
