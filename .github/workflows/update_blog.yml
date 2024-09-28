@@ -74,7 +74,7 @@ jobs:
         uses: tgymnich/fork-sync@v2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          owner: bsin1122
+          owner: bsjin1122
           base: main
           head: update-blog-posts-branch
           auto_approve: true
