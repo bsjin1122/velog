@@ -55,7 +55,7 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git add .
-          git commit -m "Velog posts 업데이트함"
+          git commit --allow-empty -m "Velog posts 업데이트함"
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
           
