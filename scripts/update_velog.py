@@ -85,5 +85,5 @@ for entry in feed.entries:
         repo.git.commit('-m', commit_message)
 
 # 변경 사항을 깃허브에 푸시
-name_of_remote_branch = 'update-blog-posts-branch'
-repo.git.push('origin', f'HEAD:{name_of_remote_branch}')
+repo.git.pull('origin', 'update-blog-posts-branch')
+repo.git.push()
