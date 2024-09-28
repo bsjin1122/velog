@@ -85,4 +85,4 @@ for entry in feed.entries:
         repo.git.commit('-m', commit_message)
 
 # 변경 사항을 깃허브에 푸시
-repo.git.push()
+repo.git.push('--set-upstream', 'origin', 'update-blog-posts-branch')
