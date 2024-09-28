@@ -77,6 +77,8 @@ jobs:
           owner: bsjin1122
           base: main
           head: update-blog-posts-branch
+          pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
+          pr_message: "velog 작성 - PR approve 완료"
 
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
