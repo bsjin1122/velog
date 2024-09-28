@@ -51,10 +51,11 @@ jobs:
           git diff
         id: check_changes
 
+        # --allow-empty 
       - name: Commit and Push Changes
         run: |
           git add .
-          git commit --allow-empty -m "Velog posts 업데이트함"
+          git commit -m "Velog posts 업데이트함"
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
           
@@ -66,12 +67,13 @@ jobs:
           pr_title: "[$(date '+%Y-%m-%d')] Velog 게시글 업로드 PR"
           pr_body: |
             :crown: *An automated PR*
+        id: create_pr  
 
       - name: PR 자동 승인
         if: github.actor == 'github-actions[bot]'  
         uses: hmarr/auto-approve-action@v4
         with:
-          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
           review-message: "Auto approved automated PR Test"
 
 
