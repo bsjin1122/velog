@@ -53,13 +53,15 @@ jobs:
           git commit --allow-empty -m "Velog posts 업데이트함"
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
+      - name: Set Date Format for PR Title
+        run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
           
       - name: pull-request
         uses: diillson/auto-pull-request@v1.0.1
         with:
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: "[$(date '+%Y-%m-%d')] Velog 게시글 업로드 PR"
+          pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           pr_body: |
             :crown: *An automated PR*
         id: create_pr  
@@ -68,12 +70,21 @@ jobs:
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
         
-      - name: PR 자동 승인
-        uses: hmarr/auto-approve-action@v4
+      - name: PR auto approval
+        uses: tgymnich/fork-sync@v2.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-          review-message: "Auto approved automated PR Test"
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          owner: bsin1122
+          base: main
+          head: update-blog-posts-branch
+          auto_approve: true
+
+      # - name: PR 자동 승인
+      #   uses: hmarr/auto-approve-action@v4
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+      #     review-message: "Auto approved automated PR Test"
 
 
       # - name: Create Pull Request
