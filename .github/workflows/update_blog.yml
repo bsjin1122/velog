@@ -1,16 +1,14 @@
 name: Update Blog Posts
-  
 
 on:
   push:
-      branches:
-        - main  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
+    branches:
+      - main
   schedule:
-    - cron: '*/1 * * * *' # 6시간마다 update
-    # - cron: '0 */6 * * *' # 6시간마다 update
+    - cron: '*/1 * * * *'
   pull_request:
     branches:
-      - main  # Pull Request 이벤트에서 실행되도록 설정
+      - main
 
 jobs:
   update_blog:
@@ -20,12 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
   
-      - name: Push Changes
-        run: |
-          git config --global user.name 'bsjin1122'
-          git config --global user.email 'kitty7579@hanmail.net'
-          git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -38,20 +30,17 @@ jobs:
       - name: Run script
         run: python scripts/update_velog.py
       
-      - name: Create pull request
+      - name: Push changes to branch
+        run: |
+          git checkout -b update-blog-posts-branch
+          git add .
+          git commit -m "Velog posts 업데이트"
+          git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
+      
+      - name: Create Pull Request
         uses: thomaseizinger/create-pull-request@master
         with:
           github_token: ${{ secrets.GH_PAT }}
-          head: update-blog-posts-branch  # PR을 생성할 때 사용될 브랜치 이름
+          head: update-blog-posts-branch
           base: main
-          title: "An automatically created PR!"
-
-
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.GH_PAT }}
-      #     commit-message: "$(date '+%Y-%m-%d') Velog 포스팅 업로드"
-      #     branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름 (필요한 경우 변경 가능)
-      #     title: "$(date '+%Y-%m-%d') Velog 포스팅 업로드"
-      #     base: main
+          title: "PR 자동 생성"
