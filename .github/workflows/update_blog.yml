@@ -9,6 +9,11 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs: 
+      pullRequestNumber:
+        description: Pull request number to auto-approve
+        required: false
 
 permissions:
   contents: write
