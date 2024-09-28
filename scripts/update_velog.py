@@ -73,7 +73,7 @@ for entry in feed.entries:
     # 깃허브 커밋
     commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
     repo.git.add(file_path)
-    repo.git.commit('--allow-empty','-m', commit_message)
+    repo.git.commit('-m', commit_message)
 
 # 커밋 여부 확인 후 변경 사항을 푸시
 if repo.is_dirty(untracked_files=True):
