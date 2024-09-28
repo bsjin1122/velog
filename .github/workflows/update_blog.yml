@@ -88,12 +88,12 @@ jobs:
       #     head: update-blog-posts-branch
       #     pr_message: "velog 작성 - PR approve 완료"
 
-      - name: PR 자동 승인
-        uses: hmarr/auto-approve-action@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-          review-message: "Auto approved automated PR Test"
+      # - name: PR 자동 승인
+      #   uses: hmarr/auto-approve-action@v4
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+      #     review-message: "Auto approved automated PR Test"
 
       - name: pr auto merge (최종)
         uses: peter-evans/enable-pull-request-automerge@v3
