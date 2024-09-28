@@ -68,7 +68,7 @@ jobs:
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
-          review-message: "Auto approved automated PR"
+          review-message: "Auto approved automated PR Test"
 
 
       # - name: Create Pull Request
