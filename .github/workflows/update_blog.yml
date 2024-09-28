@@ -35,7 +35,15 @@ jobs:
       - name: Run script
         run: python scripts/update_velog.py
       
-      - name: Push changes to branch
+      - name: Check for Changes
+        run: |
+          git status
+          git diff
+        id: check_changes
+
+      - name: Commit and Push Changes
+        # 변경 사항이 있는 경우에만 실행
+        if: steps.check_changes.outputs.changed_files != ''
         run: |
           git checkout -b update-blog-posts-branch
           git add .
@@ -43,6 +51,8 @@ jobs:
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
       
       - name: Create Pull Request
+        # 변경 사항이 있는 경우에만 실행
+        if: steps.check_changes.outputs.changed_files != '' 
         uses: thomaseizinger/create-pull-request@master
         with:
           github_token: ${{ secrets.GH_PAT }}
