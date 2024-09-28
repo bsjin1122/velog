@@ -26,14 +26,17 @@ jobs:
       - name: Install dependencies
         run: |
           pip install feedparser gitpython
-  
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'bsjin1122'
+          git config --global user.email 'kitty7579@hanmail.net'
+
       - name: Run script
         run: python scripts/update_velog.py
       
       - name: Push changes to branch
         run: |
-          git config --global user.name 'bsjin1122'
-          git config --global user.email 'kitty7579@hanmail.net'
           git checkout -b update-blog-posts-branch
           git add .
           git commit -m "Velog posts 업데이트"
