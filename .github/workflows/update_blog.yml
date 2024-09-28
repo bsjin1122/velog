@@ -9,7 +9,7 @@ on:
   pull_request:
     branches:
       - main
-      
+
 permissions:
   contents: write
   pull-requests: write
@@ -52,13 +52,24 @@ jobs:
           git add .
           git commit --allow-empty -m "Velog posts 업데이트함"
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
-      
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+     
+          
+      - name: pull-request
+        uses: diillson/auto-pull-request@v1.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Velog posts 업데이트"
-          branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름
-          title: "PR 자동 생성"
-          base: main
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Pulling ${{ github.ref }} into master"
+          pr_body: |
+            :crown: *An automated PR*
+            
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     commit-message: "Velog posts 업데이트"
+      #     branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름
+      #     title: "PR 자동 생성"
+      #     base: main
       
