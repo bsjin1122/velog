@@ -87,6 +87,11 @@ jobs:
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
           review-message: "Auto approved automated PR Test"
 
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+      
 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
