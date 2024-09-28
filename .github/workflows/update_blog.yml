@@ -34,7 +34,9 @@ jobs:
           git checkout -b update-blog-posts-branch
 
       - name: Run script
-        run: python scripts/update_velog.py
+        run: |
+          python scripts/update_velog.py
+          git push --set-upstream origin update-blog-posts-branch
       
       - name: Check for Changes
         run: |
