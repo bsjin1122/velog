@@ -63,11 +63,12 @@ jobs:
           pr_body: |
             :crown: *An automated PR*
 
-      # - name: auto-approval
-      #   uses: hmarr/auto-approve-action@v4
-      #   with:
-      #     pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
-      #     review-message: "Auto approved automated PR"
+      - name: auto-approval
+        if: github.actor == 'github-actions[bot]'  
+        uses: hmarr/auto-approve-action@v4
+        with:
+          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          review-message: "Auto approved automated PR"
 
 
       # - name: Create Pull Request
