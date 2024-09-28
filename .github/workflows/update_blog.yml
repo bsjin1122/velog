@@ -31,7 +31,7 @@ jobs:
         run: |
           git config --global user.name 'bsjin1122'
           git config --global user.email 'kitty7579@hanmail.net'
-          git checkout -b update-blog-posts-branch
+          git checkout update-blog-posts-branch
 
       - name: Run script
         run: python scripts/update_velog.py
