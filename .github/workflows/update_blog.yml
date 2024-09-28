@@ -45,7 +45,7 @@ jobs:
         # 변경 사항이 있는 경우에만 실행
         run: |
           git add .
-          git commit -m "Velog posts 업데이트"
+          git commit --allow-empty -m "Velog posts 업데이트"
           git push --set-upstream https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
       
       - name: Create Pull Request
