@@ -59,10 +59,16 @@ jobs:
         with:
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: "Pulling ${{ github.ref }} into master"
+          pr_title: "Velog 게시글 업로드 PR"
           pr_body: |
             :crown: *An automated PR*
-            
+
+      - name: auto-approval
+        uses: hmarr/auto-approve-action@v4
+        with:
+          pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+          review-message: "Auto approved automated PR"
+
 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
