@@ -42,7 +42,7 @@ jobs:
         uses: thomaseizinger/create-pull-request@master
         with:
           github_token: ${{ secrets.GH_PAT }}
-          head: ${{ github.ref }}
+          head: update-blog-posts-branch  # PR을 생성할 때 사용될 브랜치 이름
           base: main
           title: "An automatically created PR!"
 
