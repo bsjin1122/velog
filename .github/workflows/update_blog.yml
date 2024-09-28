@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - update-blog-posts-branch
-  schedule:
-    - cron: '0 */6 * * *'
+  # schedule:
+  #   - cron: '0 */6 * * *'
   workflow_dispatch: 
     inputs: 
       pullRequestNumber:
