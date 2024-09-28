@@ -88,4 +88,5 @@ for entry in feed.entries:
 # remote_url = f"https://{os.environ['GITHUB_TOKEN']}@github.com/bsjin1122/velog.git"
 # repo.git.push(remote_url, f'HEAD:{name_of_remote_branch}')
 repo.git.checkout('-b', 'update-blog-posts-branch')
+repo.git.pull('origin', 'update-blog-posts-branch', '--rebase')
 repo.git.push('origin', 'update-blog-posts-branch')
