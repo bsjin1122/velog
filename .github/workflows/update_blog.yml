@@ -53,13 +53,15 @@ jobs:
           git commit --allow-empty -m "Velog posts 업데이트함"
           git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
+      - name: Set Date Format for PR Title
+        run: echo "PR_DATE=$(date '+%Y-%m-%d')" >> $GITHUB_ENV
           
       - name: pull-request
         uses: diillson/auto-pull-request@v1.0.1
         with:
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: "[$(date '+%Y-%m-%d')] Velog 게시글 업로드 PR"
+          pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드 PR"
           pr_body: |
             :crown: *An automated PR*
         id: create_pr  
