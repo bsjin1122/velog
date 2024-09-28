@@ -51,7 +51,7 @@ jobs:
         run: |
           git add .
           git commit --allow-empty -m "Velog posts 업데이트함"
-          git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
@@ -77,7 +77,6 @@ jobs:
           owner: bsjin1122
           base: main
           head: update-blog-posts-branch
-          auto_approve: true
 
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
