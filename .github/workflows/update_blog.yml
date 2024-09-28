@@ -6,7 +6,12 @@ on:
       - update-blog-posts-branch
   # schedule:
     # - cron: '*/1 * * * *'
-  workflow_dispatch: # on button click
+  workflow_dispatch: 
+    inputs: # on button click
+      pullRequestNumber:
+        description: Pull request number to auto-approve
+        required: false
+        
   pull_request:
     branches:
       - main
@@ -47,12 +52,12 @@ jobs:
           git diff
         id: check_changes
 
-        # --allow-empty 
-      - name: Commit and Push Changes
-        run: |
-          git add .
-          git commit --allow-empty -m "Velog posts 업데이트함"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
+      # --allow-empty 
+      # - name: Commit and Push Changes
+      #   run: |
+      #     git add .
+      #     git commit --allow-empty -m "Velog posts 업데이트함"
+      #     git push https://${{ secrets.GITHUB_TOKEN }}@github.com/bsjin1122/velog.git update-blog-posts-branch
      
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
@@ -60,9 +65,12 @@ jobs:
       - name: pull-request
         uses: diillson/auto-pull-request@v1.0.1
         with:
+          # source_branch: "update-blog-posts-branch"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_label: "velog"
           pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
+          pr_allow_empty: true
           pr_body: |
             :crown: *An automated PR*
         id: create_pr  
@@ -71,14 +79,14 @@ jobs:
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
         
-      - name: PR auto approval
-        uses: tgymnich/fork-sync@v2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          owner: bsjin1122
-          base: main
-          head: update-blog-posts-branch
-          pr_message: "velog 작성 - PR approve 완료"
+      # - name: PR auto approval
+      #   uses: tgymnich/fork-sync@v2.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     owner: bsjin1122
+      #     base: main
+      #     head: update-blog-posts-branch
+      #     pr_message: "velog 작성 - PR approve 완료"
 
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
@@ -87,6 +95,12 @@ jobs:
       #     pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
       #     review-message: "Auto approved automated PR Test"
 
+      - name: pr auto merge (최종)
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+      
 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3

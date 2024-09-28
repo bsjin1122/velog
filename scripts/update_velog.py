@@ -82,8 +82,11 @@ for entry in feed.entries:
         # 깃허브 커밋
         commit_message = f"[{dday_prefix} | {date_prefix}] {entry.title}"
         repo.git.add(file_path)
-        repo.git.commit('-m', commit_message)
+        repo.git.commit('--allow-empty', '-m', commit_message)
 
 # 변경 사항을 깃허브에 푸시
-name_of_remote_branch = 'update-blog-posts-branch'
-repo.git.push('origin', f'HEAD:{name_of_remote_branch}')
+# remote_url = f"https://{os.environ['GITHUB_TOKEN']}@github.com/bsjin1122/velog.git"
+# repo.git.push(remote_url, f'HEAD:{name_of_remote_branch}')
+repo.git.checkout('update-blog-posts-branch')
+repo.git.pull('origin', 'update-blog-posts-branch', '--rebase')
+repo.git.push('origin', 'update-blog-posts-branch')
