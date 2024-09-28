@@ -3,7 +3,7 @@ name: Update Blog Posts
 on:
   push:
     branches:
-      - main
+      - update-blog-posts-branch
   # schedule:
   #   - cron: '*/1 * * * *'
   pull_request:
