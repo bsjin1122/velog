@@ -45,4 +45,4 @@ jobs:
           github_token: ${{ secrets.GH_PAT }}
           head: update-blog-posts-branch
           base: main
-          title: "PR 자동 생성"
+          title: "PR 자동 생성합니다."
