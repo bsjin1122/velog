@@ -3,12 +3,17 @@ name: Update Blog Posts
 on:
   push:
     branches:
-      - main
+      - update-blog-posts-branch
   # schedule:
   #   - cron: '*/1 * * * *'
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
 
 jobs:
   update_blog:
@@ -31,7 +36,6 @@ jobs:
         run: |
           git config --global user.name 'bsjin1122'
           git config --global user.email 'kitty7579@hanmail.net'
-          git checkout -b update-blog-posts-branch
 
       - name: Run script
         run: python scripts/update_velog.py
@@ -46,14 +50,32 @@ jobs:
         # 변경 사항이 있는 경우에만 실행
         run: |
           git add .
-          git commit --allow-empty -m "Velog posts 업데이트"
-          git push --set-upstream https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
-      
-      - name: Create Pull Request
-        # 변경 사항이 있는 경우에만 실행
-        uses: thomaseizinger/create-pull-request@master
+          git commit --allow-empty -m "Velog posts 업데이트함"
+          git push https://${{ secrets.GH_PAT }}@github.com/bsjin1122/velog.git update-blog-posts-branch
+     
+          
+      - name: pull-request
+        uses: diillson/auto-pull-request@v1.0.1
         with:
-          github_token: ${{ secrets.GH_PAT }}
-          head: update-blog-posts-branch
-          base: main
-          title: "PR 자동 생성 test"
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Velog 게시글 업로드 PR"
+          pr_body: |
+            :crown: *An automated PR*
+
+      # - name: auto-approval
+      #   uses: hmarr/auto-approve-action@v4
+      #   with:
+      #     pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
+      #     review-message: "Auto approved automated PR"
+
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     commit-message: "Velog posts 업데이트"
+      #     branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름
+      #     title: "PR 자동 생성"
+      #     base: main
+      
