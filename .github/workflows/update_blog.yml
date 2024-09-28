@@ -5,7 +5,8 @@ on:
     branches:
       - update-blog-posts-branch
   # schedule:
-  #   - cron: '*/1 * * * *'
+    # - cron: '*/1 * * * *'
+  workflow_dispatch: # on button click
   pull_request:
     branches:
       - main
