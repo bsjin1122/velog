@@ -45,6 +45,7 @@ for entry in feed.entries:
     # 파일 이름에서 주제(subject) 추출
     match = re.search(r'\[(.*?)\]', file_name)
     subject = match.group(1).upper() if match else None # 대문자 설정
+    print(subject)
 
     # 디렉토리 설정: subject가 있는 경우 해당 디렉토리, 없는 경우 'velog-posts'
     if subject:
