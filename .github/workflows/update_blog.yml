@@ -138,5 +138,6 @@ jobs:
         with:
           github-token: ${{ secrets.VELOG_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-          review-message: "Auto approved automated PR"    
+          review-message: "Auto approved automated PR"
+             
 
