@@ -87,7 +87,6 @@ jobs:
           assignees: bsjin1122
         id: create_pr
 
-
       - name: Display PR Number # 날짜 형식
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pull-request-number }}" 
@@ -100,7 +99,6 @@ jobs:
           token: ${{ secrets.VELOG_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
           # merge-method:
-      
     
       ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
 
@@ -114,7 +112,7 @@ jobs:
       #     head: update-blog-posts-branch
       #     pr_message: "velog 작성 - PR approve 완료"
 
-      # 방법2. PR 자동 승인
+      # 방법2. PR 자동 승인 -- 본인이 생성한 pr은 본인이 승인 못하게 막아둠
       # - name: PR 자동 승인
       #   uses: hmarr/auto-approve-action@v4
       #   with:
@@ -131,14 +129,5 @@ jobs:
       #     branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름
       #     title: "PR 자동 생성"
       #     base: main
-      
-      # 방법4. PR 자동 승인
-      - name: PR 자동 승인
-        if: steps.create_pr.outputs.pull-request-number != ''  
-        uses: hmarr/auto-approve-action@v4
-        with:
-          github-token: ${{ secrets.VELOG_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-          review-message: "Auto approved automated PR"
-             
+
 
