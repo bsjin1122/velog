@@ -70,7 +70,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_label: "velog"
           pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
-          pr_allow_empty: true
+          pr_allow_empty: false
           pr_body: |
             :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
         id: create_pr  
