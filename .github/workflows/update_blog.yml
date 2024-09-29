@@ -61,38 +61,43 @@ jobs:
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
           
       # 변경사항이 있는 경우에만 실행
-      - name: Create Pull Request
-        uses: diillson/auto-pull-request@v1.0.1
+      # - name: Create Pull Request
+      #   uses: diillson/auto-pull-request@v1.0.1
+      #   with:
+      #     destination_branch: "main"
+      #     github_token: ${{ secrets.VELOG_TOKEN }}
+      #     pr_label: "velog"
+      #     pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
+      #     pr_allow_empty: false
+      #     pr_body: |
+      #       :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
+      #   id: create_pr  
+
+      - name: Create Pull Request (peter-evans)
+        uses: peter-evans/create-pull-request@v7
         with:
-          destination_branch: "main"
-          github_token: ${{ secrets.VELOG_TOKEN }}
-          pr_label: "velog"
-          pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
-          pr_allow_empty: false
-          pr_body: |
+          token: ${{ secrets.VELOG_TOKEN }}
+          author: bsjin1122 <kitty7579@hanmail.net>
+          body: | 
             :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
-        id: create_pr  
+          labels: velog
+        id: create_pr
+
+
 
       - name: Display PR Number # 날짜 형식
         run: |
-          echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
+          echo "Pull Request Number: ${{ steps.create_pr.outputs.pull-request-number }}" 
       
       - name: PR Auto Merge 
         # PR이 있는 경우에만 실행  
-        if: steps.create_pr.outputs.pr_number != ''  
+        if: steps.create_pr.outputs.pull-request-number != ''  
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.VELOG_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
           # merge-method:
       
-      - name: PR 자동 승인
-        uses: hmarr/auto-approve-action@v4
-        with:
-          github-token: ${{ secrets.VELOG_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-          review-message: "Auto approved automated PR Test"    
-
     
       ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
 
@@ -124,3 +129,10 @@ jobs:
       #     title: "PR 자동 생성"
       #     base: main
       
+      # 방법4. PR 자동 승인
+      # - name: PR 자동 승인
+      # uses: hmarr/auto-approve-action@v4
+      # with:
+      #   github-token: ${{ secrets.VELOG_TOKEN }}
+      #   pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+      #   review-message: "Auto approved automated PR Test"    
