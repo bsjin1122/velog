@@ -5,8 +5,7 @@ on:
     branches:
       - update-blog-posts-branch
   schedule:
-    - cron: '*/2 * * * *'
-    # - cron: '0 * * * *'
+    - cron: '0 * * * *'
   workflow_dispatch: 
     inputs: 
       pullRequestNumber:
@@ -62,7 +61,6 @@ jobs:
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
           
       # 변경사항이 있는 경우에만 실행
-      # if: env.CHANGED == 'true'  
       - name: Create Pull Request
         uses: diillson/auto-pull-request@v1.0.1
         with:
