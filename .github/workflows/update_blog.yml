@@ -83,7 +83,7 @@ jobs:
           labels: velog
           title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           branch: main
-          base: main
+          base: update-blog-posts-branch
         id: create_pr
 
 
