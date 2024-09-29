@@ -51,7 +51,7 @@ jobs:
         run: |
           git status
           git diff
-          git push origin main
+          git push origin update-blog-posts-branch
         id: check_changes
 
       - name: Set Date Format for PR Title
