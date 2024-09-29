@@ -107,7 +107,7 @@ jobs:
         uses: hmarr/auto-approve-action@v4
         with:
           github-token: ${{ secrets.VELOG_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
           review-message: "velog 작성 - PR approve 완료"
       
     
