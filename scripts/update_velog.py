@@ -79,10 +79,21 @@ for entry in feed.entries:
 # 커밋 여부 확인 후 변경 사항을 푸시
 if repo.is_dirty(untracked_files=True):
     branch_name = 'update-blog-posts-branch'
-    repo.git.fetch('origin')
-    repo.git.checkout(branch_name)
-    repo.git.pull('origin', branch_name, '--rebase')
-    repo.git.push('origin', branch_name)
+    
+    # origin/main과 현재 로컬 브랜치의 차이 확인
+    main_branch = 'origin/main'
+    
+    # 'origin/main'과 현재 상태의 diff 확인
+    diff_main = repo.git.diff(main_branch)
+
+    if diff_main:  # 변경 사항이 있을 경우에만 push
+        print(f"origin/main과 변경된 사항이 있습니다. '{branch_name}'에 push를 진행합니다.")
+        repo.git.fetch('origin')
+        repo.git.checkout(branch_name)
+        repo.git.pull('origin', branch_name, '--rebase')
+        repo.git.push('origin', branch_name)
+    else:
+        print("origin/main과 변경사항이 없으므로 push하지 않습니다.")
 else:
     print("Push할 변경사항이 없습니다.")
 
