@@ -92,25 +92,14 @@ jobs:
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pull-request-number }}" 
       
-      # - name: PR Auto Merge 
-      #   # PR이 있는 경우에만 실행  
-      #   if: steps.create_pr.outputs.pull-request-number != ''  
-      #   uses: peter-evans/enable-pull-request-automerge@v3
-      #   with:
-      #     token: ${{ secrets.VELOG_TOKEN }}
-      #     pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-      #     # merge-method:
-      
-  
-      # - name: PR auto approval
-      #   uses: tgymnich/fork-sync@v2.0
-      #   with:
-      #     token: ${{ secrets.VELOG_TOKEN }}
-      #     owner: bsjin1122
-      #     base: main
-      #     head: update-blog-posts-branch
-
-      #     pr_message: "velog 작성 - PR approve 완료"
+      - name: PR Auto Merge 
+        # PR이 있는 경우에만 실행  
+        if: steps.create_pr.outputs.pull-request-number != ''  
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.VELOG_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+          # merge-method:
       
     
       ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
@@ -144,9 +133,10 @@ jobs:
       #     base: main
       
       # 방법4. PR 자동 승인
-      # - name: PR 자동 승인
-      # uses: hmarr/auto-approve-action@v4
-      # with:
-      #   github-token: ${{ secrets.VELOG_TOKEN }}
-      #   pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-      #   review-message: "Auto approved automated PR Test"    
+      - name: PR 자동 승인
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.VELOG_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
+          review-message: "Auto approved automated PR"    
+
