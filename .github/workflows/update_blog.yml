@@ -51,6 +51,7 @@ jobs:
         run: |
           git status
           git diff
+          git fetch origin update-blog-posts-branch
           git checkout update-blog-posts-branch
           git push origin update-blog-posts-branch
         id: check_changes
