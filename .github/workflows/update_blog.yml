@@ -77,14 +77,13 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.VELOG_TOKEN }}
-          commit-message: Update report
-          committer: bsjin1122 <kitty7579@hanmail.net>
           author: bsjin1122 <kitty7579@hanmail.net>
           body: | 
             :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
           labels: velog
           title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           branch: update-blog-posts-branch
+          base: main
         id: create_pr
 
 
