@@ -101,13 +101,15 @@ jobs:
       #     pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
       #     # merge-method:
       
-      - name: PR 자동 승인
-        if: steps.create_pr.outputs.pull-request-number != ''
-        uses: hmarr/auto-approve-action@v4
+  
+      - name: PR auto approval
+        uses: tgymnich/fork-sync@v2.0
         with:
-          github-token: ${{ secrets.VELOG_TOKEN }}
-          pull-request-number: ${{ steps.create_pr.outputs.pull-request-number }}
-          review-message: "velog 작성 - PR approve 완료"
+          token: ${{ secrets.VELOG_TOKEN }}
+          owner: bsjin1122
+          base: main
+          head: update-blog-posts-branch
+          pr_message: "velog 작성 - PR approve 완료"
       
     
       ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
