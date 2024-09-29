@@ -84,7 +84,6 @@ jobs:
           title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           branch: main
           base: update-blog-posts-branch
-          reviewers: bsjin1122
           assignees: bsjin1122
         id: create_pr
 
