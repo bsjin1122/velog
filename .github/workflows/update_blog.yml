@@ -49,9 +49,9 @@ jobs:
       
       - name: Check for Changes # Git 상태 확인
         run: |
+          git branch --show-current
           git status
           git diff
-          git branch --show-current
         id: check_changes
         # git fetch origin update-blog-posts-branch
         # git checkout update-blog-posts-branch
