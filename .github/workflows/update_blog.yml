@@ -51,10 +51,11 @@ jobs:
         run: |
           git status
           git diff
-          git fetch origin update-blog-posts-branch
-          git checkout update-blog-posts-branch
-          git push origin update-blog-posts-branch
+          git branch --show-current
         id: check_changes
+        # git fetch origin update-blog-posts-branch
+        # git checkout update-blog-posts-branch
+        # git push origin update-blog-posts-branch
 
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
