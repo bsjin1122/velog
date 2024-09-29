@@ -5,7 +5,7 @@ on:
     branches:
       - update-blog-posts-branch
   schedule:
-    - cron: '0 * * * *'
+      - cron: '0 */8 * * *'
   workflow_dispatch: 
     inputs: 
       pullRequestNumber:
@@ -59,19 +59,6 @@ jobs:
 
       - name: Set Date Format for PR Title
         run: echo "PR_DATE=$(date '+%y%m%d')" >> $GITHUB_ENV
-          
-      # 변경사항이 있는 경우에만 실행
-      # - name: Create Pull Request
-      #   uses: diillson/auto-pull-request@v1.0.1
-      #   with:
-      #     destination_branch: "main"
-      #     github_token: ${{ secrets.VELOG_TOKEN }}
-      #     pr_label: "velog"
-      #     pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
-      #     pr_allow_empty: false
-      #     pr_body: |
-      #       :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
-      #   id: create_pr  
 
       - name: Create Pull Request (peter-evans)
         uses: peter-evans/create-pull-request@v7
@@ -129,5 +116,18 @@ jobs:
       #     branch: update-blog-posts-branch  # PR 생성 시 사용될 브랜치 이름
       #     title: "PR 자동 생성"
       #     base: main
+
+      # 변경사항이 있는 경우에만 실행
+      # - name: Create Pull Request
+      #   uses: diillson/auto-pull-request@v1.0.1
+      #   with:
+      #     destination_branch: "main"
+      #     github_token: ${{ secrets.VELOG_TOKEN }}
+      #     pr_label: "velog"
+      #     pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
+      #     pr_allow_empty: false
+      #     pr_body: |
+      #       :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
+      #   id: create_pr  
 
 
