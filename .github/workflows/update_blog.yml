@@ -65,7 +65,7 @@ jobs:
         uses: diillson/auto-pull-request@v1.0.1
         with:
           destination_branch: "main"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.VELOG_TOKEN }}
           pr_label: "velog"
           pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           pr_allow_empty: false
@@ -82,7 +82,7 @@ jobs:
         if: steps.create_pr.outputs.pr_number != ''  
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.VELOG_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
           # merge-method:
       
