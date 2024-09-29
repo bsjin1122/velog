@@ -5,7 +5,8 @@ on:
     branches:
       - update-blog-posts-branch
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/2 * * * *'
+    # - cron: '0 * * * *'
   workflow_dispatch: 
     inputs: 
       pullRequestNumber:
@@ -78,6 +79,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          # merge-method:
       
 
     
