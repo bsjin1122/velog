@@ -81,6 +81,8 @@ jobs:
         # PR이 있는 경우에만 실행  
         if: steps.create_pr.outputs.pr_number != ''  
         uses: peter-evans/enable-pull-request-automerge@v3
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GH_TOKEN 환경 변수 설정
         with:
           token: ${{ secrets.VELOG_TOKEN }}
           pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
