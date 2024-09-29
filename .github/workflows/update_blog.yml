@@ -84,8 +84,8 @@ jobs:
             :satisfied: [Velog 새 게시글 확인하기](https://velog.io/@greendev/posts)
           labels: velog
           title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
-          base: update-blog-posts-branch
-          branch: main
+          base: main
+          branch: update-blog-posts-branch
         id: create_pr
 
 
