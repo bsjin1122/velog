@@ -65,7 +65,7 @@ jobs:
         uses: diillson/auto-pull-request@v1.0.1
         with:
           destination_branch: "main"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.VELOG_TOKEN }}
           pr_label: "velog"
           pr_title: "[${{ env.PR_DATE }}]  Velog 게시글 업로드"
           pr_allow_empty: false
@@ -77,16 +77,14 @@ jobs:
         run: |
           echo "Pull Request Number: ${{ steps.create_pr.outputs.pr_number }}" 
       
-      # - name: PR Auto Merge 
-      #   # PR이 있는 경우에만 실행  
-      #   if: steps.create_pr.outputs.pr_number != ''  
-      #   uses: peter-evans/enable-pull-request-automerge@v3
-      #   with:
-      #     token: ${{ secrets.VELOG_TOKEN }}
-      #     pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
-      #     # merge-method:
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GH_TOKEN 환경 변수 설정
+      - name: PR Auto Merge 
+        # PR이 있는 경우에만 실행  
+        if: steps.create_pr.outputs.pr_number != ''  
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.VELOG_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          # merge-method:
       
       - name: PR 자동 승인
         uses: hmarr/auto-approve-action@v4
