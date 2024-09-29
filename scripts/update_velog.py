@@ -8,7 +8,8 @@ from datetime import datetime
 rss_url = 'https://api.velog.io/rss/@greendev'
 
 # 깃허브 레포지토리 경로
-repo_path = '.'  # 실제 Git 저장소 경로
+repo_path = '.'
+#''C:/study/velog' # 실제 Git 저장소 경로
 
 # 'velog-posts' 폴더 경로
 posts_dir = os.path.join(repo_path, 'velog-posts')
