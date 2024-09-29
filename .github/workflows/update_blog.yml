@@ -102,14 +102,15 @@ jobs:
       #     # merge-method:
       
   
-      - name: PR auto approval
-        uses: tgymnich/fork-sync@v2.0
-        with:
-          token: ${{ secrets.VELOG_TOKEN }}
-          owner: bsjin1122
-          base: main
-          head: update-blog-posts-branch
-          pr_message: "velog 작성 - PR approve 완료"
+      # - name: PR auto approval
+      #   uses: tgymnich/fork-sync@v2.0
+      #   with:
+      #     token: ${{ secrets.VELOG_TOKEN }}
+      #     owner: bsjin1122
+      #     base: main
+      #     head: update-blog-posts-branch
+
+      #     pr_message: "velog 작성 - PR approve 완료"
       
     
       ########### 시도 했던 방법들 -- 사용 가능한 스크립트들입니다.
