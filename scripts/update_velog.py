@@ -35,7 +35,7 @@ dday_prefix = f"D+{dday_diff}" if dday_diff >= 0 else f"D{dday_diff}"
 
 # 각 글을 파일로 저장하고 커밋
 for entry in feed.entries:
-    file_name = entry.title.replace('/', '-').replace('\\', '-')
+    file_name = entry.title.replace('/', '-').replace('\\', '-').replace(':', '-')
     
     # 게시글 내용 확인
     post_content = entry.description.strip() if entry.description else None
