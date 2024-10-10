@@ -5,7 +5,10 @@ on:
     branches:
       - update-blog-posts-branch
   schedule:
-      - cron: '0 */6 * * *'
+      - cron: '0 18-23 * * *'  # 저녁 6시부터 밤 11시까지 매 시간 정각
+      - cron: '0 0 * * *'      # 자정에 실행
+      - cron: '0 */6 * * *'    # 매일 6시간 간격으로 실행 (0시, 6시, 12시, 18시)
+
   workflow_dispatch: 
     inputs: 
       pullRequestNumber:
