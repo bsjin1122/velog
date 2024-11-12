@@ -1,0 +1,4 @@
+<p><a href="https://oracle-base.com/articles/12c/online-conversion-of-a-non-partitioned-table-to-a-partitioned-table-12cr2">https://oracle-base.com/articles/12c/online-conversion-of-a-non-partitioned-table-to-a-partitioned-table-12cr2</a>
+<a href="https://oracle-base.com/articles/12c/online-split-partition-and-subpartition-12cr2">https://oracle-base.com/articles/12c/online-split-partition-and-subpartition-12cr2</a>
+<a href="https://oracle-base.com/articles/12c/rman-table-point-in-time-recovery-12cr1">https://oracle-base.com/articles/12c/rman-table-point-in-time-recovery-12cr1</a>
+<a href="https://oracle-base.com/articles/12c/rman-table-point-in-time-recovery-12cr1#table-pitr-recovery-dump-file">https://oracle-base.com/articles/12c/rman-table-point-in-time-recovery-12cr1#table-pitr-recovery-dump-file</a></p>
