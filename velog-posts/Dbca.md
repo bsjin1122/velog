@@ -1,0 +1,1 @@
+<p>dbca -silent -createDatabase <br />  -gdbName ORCLCDB <br />  -sid ORCLCDB <br />  -createAsContainerDatabase true <br />  -templateName General_Purpose.dbc <br />  -datafileDestination '/u01/app/oracle/oradata' <br />  -characterSet AL32UTF8 <br />  -memoryPercentage 40 <br />  -emConfiguration DBEXPRESS <br />  -emExpressPort 5500</p>
