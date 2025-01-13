@@ -1,0 +1,1 @@
+<p><a href="https://www.oracle.com/jp/a/tech/docs/technical-resources/20100908-expimp-beginner.pdf">https://www.oracle.com/jp/a/tech/docs/technical-resources/20100908-expimp-beginner.pdf</a></p>
