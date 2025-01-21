@@ -1,0 +1,2 @@
+<p><a href="https://oracle-base.com/articles/12c/online-conversion-of-a-non-partitioned-table-to-a-partitioned-table-12cr2">https://oracle-base.com/articles/12c/online-conversion-of-a-non-partitioned-table-to-a-partitioned-table-12cr2</a>
+<a href="https://oracle-base.com/articles/12c/online-split-partition-and-subpartition-12cr2">https://oracle-base.com/articles/12c/online-split-partition-and-subpartition-12cr2</a></p>
