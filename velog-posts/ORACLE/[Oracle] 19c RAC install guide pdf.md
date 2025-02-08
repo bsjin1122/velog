@@ -1,0 +1,1 @@
+<p><a href="https://www.oracle.com/jp/a/tech/docs/technical-resources/19c-racdb-installationguide.pdf">https://www.oracle.com/jp/a/tech/docs/technical-resources/19c-racdb-installationguide.pdf</a></p>
